@@ -91,7 +91,14 @@ public class MainActivity extends AppCompatActivity {
                     /*if(msg.getData().getBoolean("sucess")){
                         base.verfyAuthCode();
                     }*/
-                    base.verfyAuthCode();
+//                    base.verfyAuthCode();
+                    try {
+                        Message replyMsg = Message
+                                .obtain(null,ServiceRequest.MSG_REQUEST);
+                        mService.send(replyMsg);
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
                     break;
                 }
                 default:
@@ -195,153 +202,153 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void verfyAuthCode(){
-        BannerModel.CodeAuth = preferenceSet.getStr(PreferenceSet.CodeAuth,null);
-        HttpUrls.IP_AD = preferenceSet.getStr(PreferenceSet.IP_AD,"");
-        HttpUrls.IP_AUTH = preferenceSet.getStr(PreferenceSet.IP_AUTH,"");
-
-        if(BannerModel.CodeAuth == null){
-
-            Alert.alertDialog(this,"请输入设备授权地址",
-                    HttpUrls.IP_AUTH == "" ? HttpUrls.IP_AUTH_DEFAULT : HttpUrls.IP_AUTH,
-                    new Alert.IResultRepose() {
-                        @Override
-                        public void onPositive(DialogInterface dialog,String s) {
-                            HttpUrls.IP_AUTH = s;
-
-                            Alert.alertDialog(base,"请输入广告地址",
-                                    HttpUrls.IP_AD == "" ? HttpUrls.IP_AD_DEFAULT : HttpUrls.IP_AD,
-                                    new Alert.IResultRepose() {
-                                        @Override
-                                        public void onPositive(DialogInterface dialog,String s) {
-                                            HttpUrls.IP_AD = s;
-                                            Alert.alertDialog(base,"请输入授权码",null, new Alert.IResultRepose() {
-                                                @Override
-                                                public void onPositive(DialogInterface dialog,String s) {
-                                                    try {
-
-                                                        BannerModel.CodeAuth = s;
-
-                                                        Alert.alertProgressCircle(MainActivity.this,
-                                                                new Alert.IResultRepose() {
-                                                                    @Override
-                                                                    public void onPositive(final DialogInterface dialog,String s) {
-                                                                        Log.i("onSuccess","string");
-                                                                        HttpUrls.init();
-                                                                        JsonObject jsonObject = new JsonObject();
-                                                                        //jsonObject.addProperty("username","15915899123");
-                                                                        //jsonObject.addProperty("password","19841018");
-                                                                        jsonObject.addProperty("deviceId",BannerModel.UNIQUE_ID);
-                                                                        jsonObject.addProperty("authCode",BannerModel.CodeAuth);
-
-                                                                        HttpRequest.get(HttpUrls.urlAuth,
-                                                                                jsonObject,
-                                                                                new HttpRequest.INetCallBack() {
-                                                                                    @Override
-                                                                                    public void onNetFailure() {
-
-                                                                                    }
-
-                                                                                    @Override
-                                                                                    public void onSuccess(JsonObject result) {
-                                                                                        Log.i("onSuccess",result.toString());
-                                                                                        dialog.dismiss();
-
-                                                                                        preferenceSet.setStr(PreferenceSet.CodeAuth,BannerModel.CodeAuth);
-                                                                                        preferenceSet.setStr(PreferenceSet.IP_AUTH,HttpUrls.IP_AUTH);
-                                                                                        preferenceSet.setStr(PreferenceSet.IP_AD,HttpUrls.IP_AD);
-
-                                                                                        JsonObject jsonObject = new JsonObject();
-                                                                                        //jsonObject.addProperty("username","15915899123");
-                                                                                        //jsonObject.addProperty("password","19841018");
-                                                                                        jsonObject.addProperty("deviceId",BannerModel.UNIQUE_ID);
-                                                                                        jsonObject.addProperty("code",BannerModel.CodeAuth);
-                                                                                        HttpRequest.get(HttpUrls.urlRegist,
-                                                                                                jsonObject,
-                                                                                                new HttpRequest.INetCallBack() {
-                                                                                                    @Override
-                                                                                                    public void onNetFailure() {
-
-                                                                                                    }
-
-                                                                                                    @Override
-                                                                                                    public void onSuccess(JsonObject result) {
-                                                                                                        //向service发送消息
-                                                                                                        try {
-                                                                                                            Message replyMsg = Message
-                                                                                                                    .obtain(null,ServiceRequest.MSG_REQUEST);
-                                                                                                            mService.send(replyMsg);
-                                                                                                        } catch (RemoteException e) {
-                                                                                                            e.printStackTrace();
-                                                                                                        }
-                                                                                                    }
-
-                                                                                                    @Override
-                                                                                                    public void onError(JsonObject errorMessage) {
-
-                                                                                                    }
-                                                                                                });
-                                                                                    }
-
-                                                                                    @Override
-                                                                                    public void onError( JsonObject errorMessage) {
-                                                                                        dialog.dismiss();
-                                                                                        initMessenger();
-                                                                                    }
-                                                                                });
-
-
-                                                                    }
-
-                                                                    @Override
-                                                                    public void onNegative() {
-
-                                                                    }
-                                                                });
-
-                                                    }
-                                                    catch (Exception e){
-
-                                                    }
-                                                }
-
-                                                @Override
-                                                public void onNegative() {
-
-                                                }
-                                            });
-                                        }
-
-                                        @Override
-                                        public void onNegative() {
-
-                                        }
-                                    });
-
-
-                        }
-
-                        @Override
-                        public void onNegative() {
-
-                        }
-                    });
-
-        }
-        else
-        {
-            HttpUrls.init();
-
-            //向service发送消息
-            try {
-                Message replyMsg = Message
-                        .obtain(null,ServiceRequest.MSG_REQUEST);
-                mService.send(replyMsg);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+//    private void verfyAuthCode(){
+//        BannerModel.CodeAuth = preferenceSet.getStr(PreferenceSet.CodeAuth,null);
+//        HttpUrls.IP_AD = preferenceSet.getStr(PreferenceSet.IP_AD,"");
+//        HttpUrls.IP_AUTH = preferenceSet.getStr(PreferenceSet.IP_AUTH,"");
+//
+//        if(BannerModel.CodeAuth == null){
+//
+//            Alert.alertDialog(this,"请输入设备授权地址",
+//                    HttpUrls.IP_AUTH == "" ? HttpUrls.IP_AUTH_DEFAULT : HttpUrls.IP_AUTH,
+//                    new Alert.IResultRepose() {
+//                        @Override
+//                        public void onPositive(DialogInterface dialog,String s) {
+//                            HttpUrls.IP_AUTH = s;
+//
+//                            Alert.alertDialog(base,"请输入广告地址",
+//                                    HttpUrls.IP_AD == "" ? HttpUrls.IP_AD_DEFAULT : HttpUrls.IP_AD,
+//                                    new Alert.IResultRepose() {
+//                                        @Override
+//                                        public void onPositive(DialogInterface dialog,String s) {
+//                                            HttpUrls.IP_AD = s;
+//                                            Alert.alertDialog(base,"请输入授权码",null, new Alert.IResultRepose() {
+//                                                @Override
+//                                                public void onPositive(DialogInterface dialog,String s) {
+//                                                    try {
+//
+//                                                        BannerModel.CodeAuth = s;
+//
+//                                                        Alert.alertProgressCircle(MainActivity.this,
+//                                                                new Alert.IResultRepose() {
+//                                                                    @Override
+//                                                                    public void onPositive(final DialogInterface dialog,String s) {
+//                                                                        Log.i("onSuccess","string");
+//                                                                        HttpUrls.init();
+//                                                                        JsonObject jsonObject = new JsonObject();
+//                                                                        //jsonObject.addProperty("username","15915899123");
+//                                                                        //jsonObject.addProperty("password","19841018");
+//                                                                        jsonObject.addProperty("deviceId",BannerModel.UNIQUE_ID);
+//                                                                        jsonObject.addProperty("authCode",BannerModel.CodeAuth);
+//
+//                                                                        HttpRequest.get(HttpUrls.urlAuth,
+//                                                                                jsonObject,
+//                                                                                new HttpRequest.INetCallBack() {
+//                                                                                    @Override
+//                                                                                    public void onNetFailure() {
+//
+//                                                                                    }
+//
+//                                                                                    @Override
+//                                                                                    public void onSuccess(JsonObject result) {
+//                                                                                        Log.i("onSuccess",result.toString());
+//                                                                                        dialog.dismiss();
+//
+//                                                                                        preferenceSet.setStr(PreferenceSet.CodeAuth,BannerModel.CodeAuth);
+//                                                                                        preferenceSet.setStr(PreferenceSet.IP_AUTH,HttpUrls.IP_AUTH);
+//                                                                                        preferenceSet.setStr(PreferenceSet.IP_AD,HttpUrls.IP_AD);
+//
+//                                                                                        JsonObject jsonObject = new JsonObject();
+//                                                                                        //jsonObject.addProperty("username","15915899123");
+//                                                                                        //jsonObject.addProperty("password","19841018");
+//                                                                                        jsonObject.addProperty("deviceId",BannerModel.UNIQUE_ID);
+//                                                                                        jsonObject.addProperty("code",BannerModel.CodeAuth);
+//                                                                                        HttpRequest.get(HttpUrls.urlRegist,
+//                                                                                                jsonObject,
+//                                                                                                new HttpRequest.INetCallBack() {
+//                                                                                                    @Override
+//                                                                                                    public void onNetFailure() {
+//
+//                                                                                                    }
+//
+//                                                                                                    @Override
+//                                                                                                    public void onSuccess(JsonObject result) {
+//                                                                                                        //向service发送消息
+//                                                                                                        try {
+//                                                                                                            Message replyMsg = Message
+//                                                                                                                    .obtain(null,ServiceRequest.MSG_REQUEST);
+//                                                                                                            mService.send(replyMsg);
+//                                                                                                        } catch (RemoteException e) {
+//                                                                                                            e.printStackTrace();
+//                                                                                                        }
+//                                                                                                    }
+//
+//                                                                                                    @Override
+//                                                                                                    public void onError(JsonObject errorMessage) {
+//
+//                                                                                                    }
+//                                                                                                });
+//                                                                                    }
+//
+//                                                                                    @Override
+//                                                                                    public void onError( JsonObject errorMessage) {
+//                                                                                        dialog.dismiss();
+//                                                                                        initMessenger();
+//                                                                                    }
+//                                                                                });
+//
+//
+//                                                                    }
+//
+//                                                                    @Override
+//                                                                    public void onNegative() {
+//
+//                                                                    }
+//                                                                });
+//
+//                                                    }
+//                                                    catch (Exception e){
+//
+//                                                    }
+//                                                }
+//
+//                                                @Override
+//                                                public void onNegative() {
+//
+//                                                }
+//                                            });
+//                                        }
+//
+//                                        @Override
+//                                        public void onNegative() {
+//
+//                                        }
+//                                    });
+//
+//
+//                        }
+//
+//                        @Override
+//                        public void onNegative() {
+//
+//                        }
+//                    });
+//
+//        }
+//        else
+//        {
+//            HttpUrls.init();
+//
+//            //向service发送消息
+//            try {
+//                Message replyMsg = Message
+//                        .obtain(null,ServiceRequest.MSG_REQUEST);
+//                mService.send(replyMsg);
+//            } catch (RemoteException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
     public void onClick(View view){
 
