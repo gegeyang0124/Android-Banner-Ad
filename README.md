@@ -3,7 +3,6 @@
 下载项目，本项目仅供参考，部分需要进行修改。代码没有。
 
 ### 展示
-![](./showImg/banner.gif)
 <p>
     <img src ="./showImg/banner.gif" />
 </p>
