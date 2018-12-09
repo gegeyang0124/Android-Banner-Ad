@@ -3,9 +3,9 @@
 下载项目，本项目仅供参考，部分需要进行修改。代码没有。
 
 ### 展示
-![展示](https://github.com/gegeyang0124/Banner-Ad/blob/master/showImg/banner.gif)
+![](./showImg/banner.gif)
 <p>
-    <img src ="https://github.com/gegeyang0124/Banner-Ad/blob/master/showImg/banner.gif" />
+    <img src ="./showImg/banner.gif" />
 </p>
 
 ### 欢迎交流
